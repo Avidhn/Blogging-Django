@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="content-section">
+	<div class="media">
+		<img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+		<div class="media-body">
+			<h2 class="account-heading">{{ user.username }}</h2>
+			<p class="text-secondary">{{ user.email }}</p>
+		</div>
+	</div>
+	<form method="POST" enctype="multipart/form-data">  
+    		{% csrf_token %}  
+    		<fieldset class="form-group">
+    			<legend class="border-bottom mb-4">Profile info</legend>
+    			{{u_form|crispy}} 
+    			{{p_form|crispy}} 
+    		<fieldset>
+    		<div class="form-group">
+    			<button class="btn btn-outline-info" type="submit">Update</button>
+    		</div>	
+    	</form>
+</div>	
+{% endblock content %}   
+
+
+
+<!-- "{{user.profile.image.url}}" provides the correct location of the picture like we did in the shell -->
+<!-- what this template will do is that it will basically add a profile pic to a profile if a user has already done it else it will add the default pic in its place so obviously django will look somewhere for the default pics and hence it will look in this place http://127.0.0.1:8000/media/default.jpeg and adding an image in the profile pics dir will do the needful  -->
+
+<!-- the form which we have added/copied from the register.html page for the form part will be diaplayed on the profile page and the form is for updating the profile picture -->
+
+<!-- enctype="multipart/form-data" is used to save the updated image in the background if we dont do this the  image wont save -->
+
+<!-- this page can be overviewd when you click the profile section of a logged in user -->

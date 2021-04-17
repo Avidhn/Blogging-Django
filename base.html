@@ -1,0 +1,103 @@
+<!-- this page is a template guardian and the pages about and home will inherit the common code which will be used for the both of the pages
+using the block content,names other than content can also be used
+2)Block content is the data that can be overwritten by other pages and the data of the template pages will be placed
+automatically in the div 'container' 
+3)the extra codes have been imported for our app to look good and have proper padding
+4)Bootstrap is an extremely popular library to style our website
+5)the meta tags and the css was added to the head tag as it was written in the starter template
+documentation to do so and same for the javascript 
+part
+6)class 'container' is a bootstrap specific class 
+7) line 45 theres a link to the url pattern blog-home which we have defined in the urls.py page and anytime we reference that it will take us to views.home function,wherever href='#' means its a dead end wont take you anywhere
+8) about the message part django will look for the messages in all the templates and we can loop through the messages also django and
+bootstrap have the same alert and message str(alert for bootstrap and message for dajngo) and we can django knows whether its a
+success or danger or warning message by the help of alert-{{ message.tags}} thing
+9) (if user.is_authenticated) is used to know whether the user is logged in or out if logged in then he'll be shown 
+the options of logging out of the page and if logged out then he'll be shown the options of either logging in or registering-->
+
+
+{% load static  %} <!-- //for loading in the main.css file -->
+<!DOCTYPE html>
+<html>
+<head>
+
+	 <!-- Required meta tags -->
+    <meta charset="utf-8">                <!-- these 2 lines make a page responsive i.e good view on any device lappy,cell,etc -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->  <!-- this link rel part is req by bootstrap4,neednt worry on our part -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}"> <!-- for adding the css styling to our base template from  the css file we made by the name of main--> 
+	{% if title %}
+	    <title>Django Blog - {{title}}</title>
+
+    {% else %}
+	    <title>Django Blog</title>
+
+    {% endif %}
+</head>
+<body>
+		<header class="site-header">
+		  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+		    <div class="container">
+		      <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">Django Blog</a>
+		      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="navbar-toggler-icon"></span>
+		      </button>
+		      <div class="collapse navbar-collapse" id="navbarToggle">
+		        <div class="navbar-nav mr-auto">
+		          <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a> 
+		          <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+		      </div>
+		        <!-- Navbar Right Side -->
+		        <div class="navbar-nav">
+		        	{% if user.is_authenticated %}  
+		        	  <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a> 
+		        	  <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a> 
+                      <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+		        	{% else %}
+		              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>   
+		              <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif %}
+
+		        </div>
+		      </div>
+		    </div>
+		  </nav>
+		</header>		
+		<main role="main" class="container">
+		  <div class="row">
+		    <div class="col-md-8">
+		    	{% if messages %}
+		    		{% for message in messages %} 
+		    			<div class="alert alert-{{ message.tags}}"> {{message}} </div> 
+		    		{% endfor %}	
+		    	{% endif %}
+
+		      {% block content %}{% endblock %}
+		    	
+		    </div>
+		    <div class="col-md-4">
+		      <div class="content-section">
+		        <h3>Our Sidebar</h3>
+		        <p class='text-muted'>You can put any information here you'd like.
+		          <ul class="list-group">
+		            <li class="list-group-item list-group-item-light">Latest Posts</li>
+		            <li class="list-group-item list-group-item-light">Announcements</li>
+		            <li class="list-group-item list-group-item-light">Calendars</li>
+		            <li class="list-group-item list-group-item-light">etc</li>
+		          </ul>
+		        </p>
+		      </div>
+		    </div>
+		  </div>
+		</main>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> <!-- this is also req by bootstrap4 and is default neednt worry on our part-->
+
+    
+</body>
+</html>

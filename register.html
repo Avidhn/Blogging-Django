@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section"> 
+    	<form method="POST">  
+    		{% csrf_token %}  
+    		<fieldset class="form-group">
+    			<legend class="border-bottom mb-4">Start your blogging journey from today</legend>
+    			<!-- {{form.as_p}} --> <!-- the variable which we passed in the context of our template in views.py,we're simply printing it here,also we want to display the username and pasword,password confrmation in separate sections as parag's -->
+    			{{form|crispy}} <!-- this because we added the crispy methods to our form -->
+    		<fieldset>	
+    		<div class="form-group">
+    			<button class="btn btn-outline-info" type="submit">Sign Up</button>
+    		</div>	
+    	</form>
+    	<div class="border-top pt-3"> <!-- bootstrap classes with pt i.e padding top as 3 -->
+    		<small class="text-muted">
+    		Already have an account? <a class="ml-2" href="{% url 'login' %}">Sign in </a> <!-- ml is margin left -->
+    	</small>
+    	</div>
+    </div>	
+{% endblock content %}   
+
+
+
+
+<!-- 1)content-section is just for styling
+2) csrf(cross site request forgery) token is a hidden tag,for protecting our form from attacks,django provides it,so  neednt worry about its functionality,also if we dont add it to our form our form wont work atleast in django,cross site request forgery token
+3) field set tag is used to group certain elements in a form
+4)legend is as usual which we know,and the classes used are the boot-strap classes
+5)for printing the form if only {{form}} was written the the form appeared disfigured but when the {{form.as_p}} was made the form appeared 
+a lot better in the browser
+6)in order for us to add a field to our form which we want to display we'll have to add it to our from separately..,in our case that field is the email section which should be displayed inthe backend form the front-end itself..
+
+ -->

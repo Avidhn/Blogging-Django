@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% block content %}
+     <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url}}">
+       <div class="media-body">
+         <div class="article-metadata">
+           <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+           <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+           {% if object.author == user %}
+             <div>
+               <a class="btn btn-secondary btn-sm mt-1 mb-1"  href="{% url 'post-update' object.id %}">Update</a>
+               <a class="btn btn-danger btn-sm mt-1 mb-1"  href="{% url 'post-delete' object.id %}">Delete</a>
+             </div>
+          {% endif %}
+         </div>
+         <h2 class="article-title">{{ object.title }}</h2>
+         <p class="article-content">{{ object.content }}</p>
+       </div>
+     </article>
+{% endblock content %}
+
+
+
+<!--  1]same code copied from home.html and no loopin over posts as we want the details of a single post so the for loop has been removed 
+      2] also we dont want the post title to take us somewhere because we clicked on the blog name for the details we brought us to the post-details page  by typing in the url specified path (post/1/2 etc)and hence removed the anchor tag
+      3] and the details view or any class based view in general expects us that the name of the context should be object by default and since we want to save us from writing extra lines of code so that we stand on the expecatation of the classbasedviews so we change the context name from posts to the default object name-->
+
+      <!-- btn is a bootstrap button  
+       {% if object.author == user %}
+             <a class="btn btn-secondary btn-sm mt-1 mb-1"  href="{% url 'post-update' object.id %}">Update</a>
+           {% endif %}
+
+           what the above code block is doing is that its checking that the logged in user is the author of that post and if he is
+           then he is presented with the post update and the post delete button
+           -->

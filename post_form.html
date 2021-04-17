@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section"> 
+    	<form method="POST">  
+    		{% csrf_token %}  
+    		<fieldset class="form-group">
+    			<legend class="border-bottom mb-4">Blog Post</legend>
+    			<!-- {{form.as_p}} --> <!-- the variable which we passed in the context of our template in views.py,we're simply printing it here -->
+    			{{form|crispy}} <!-- this because we added the crispy methods to our form -->
+    		</fieldset>	
+    		<div class="form-group">
+    			<button class="btn btn-outline-info" type="submit">Post</button>
+    		</div>	
+    	</form>
+    </div>	
+{% endblock content %}   
+
+<!-- this template copied form the register template -->
+<!-- this is basically a form to create a new blog post  -->

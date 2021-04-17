@@ -1,0 +1,92 @@
+{% extends "blog/base.html" %}
+{% block content %}
+     {% for post in posts %}
+     <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ post.author.profile.image.url}}">
+       <div class="media-body">
+         <div class="article-metadata">
+           <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+           <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+         </div>
+         <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+         <p class="article-content">{{ post.content }}</p>
+       </div>
+     </article>
+     {% endfor %}
+       {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+ {% endblock content %}
+
+ <!-- now clicking on the post title we will be redirected to the post-details template for that post(e.g post/1 where 1 is the unik id of that post) -->
+
+ <!-- this page has inherited the basic structure from base.html page and the content which was unique to this page has been enclosed in the 
+ content block -->
+
+<!--  the extends statement at the top will help home.html to inherit the str from base.html and at the same time have the unique contents of its own in the content block -->
+  
+
+ <!-- for looping we have start as well as end the loop too in html templates
+Also for using a variable the variable need to be enclosed within curly braces -->
+
+<!-- is_paginated tell whether the current page is paginated 
+
+  page_obj.has_previous view passes the page_obj to the template in this fashion,and checks if it has previous pages,
+ then we can either be taken to the first page in the list or just the previous page
+
+
+{% url 'user-posts' post.author.username %} now when we click on the user name this coding will take us to the user-post page and we
+can see all the pages from that user in a paginated view-->
+
+ <!--  num in page_obj.paginator.page_range loops all the pages in range 
+       page_obj.number == num checks whether we are on the current page -->
+
+
+<!--   ###since the code was being repetitive we did template inheritance####  
+<!DOCTYPE html>           
+<html>
+<head>
+
+{% if title %}  #when we came to this template, we checked  if the blog has a title
+	<title>Django Blog {{title}}</title>
+
+{% else %}
+	<title>Django Blog</title>
+
+{% endif %}
+</head>
+<body>
+     
+     {% for post in posts %}
+     	<h1>{{post.title}}</h1>>
+     	<p>By {{post.author}} on {{post.date_posted}}</p>
+     	<p>{{post.content}}</p>
+     {% endfor %}	 
+
+</body>
+</html>
+-->
+
+
+
+
+
